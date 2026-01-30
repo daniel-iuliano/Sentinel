@@ -12,19 +12,13 @@ export class CoinExClient {
   }
 
   private generateSignature(method: string, path: string, params: Record<string, any>, timestamp: number): string {
-    // V2 API signature: Method + Path + Params + Timestamp
     const sortedKeys = Object.keys(params).sort();
     let queryStr = '';
     if (sortedKeys.length > 0) {
       queryStr = sortedKeys.map(key => `${key}=${params[key]}`).join('&');
     }
-    
     const prepareStr = `${method}${path}${queryStr}${timestamp}`;
-    return crypto
-      .createHmac('sha256', this.apiSecret)
-      .update(prepareStr)
-      .digest('hex')
-      .toLowerCase();
+    return crypto.createHmac('sha256', this.apiSecret).update(prepareStr).digest('hex').toLowerCase();
   }
 
   async request(method: 'GET' | 'POST', path: string, data: Record<string, any> = {}) {
@@ -50,9 +44,7 @@ export class CoinExClient {
     });
 
     const result = await response.json();
-    if (result.code !== 0) {
-      throw new Error(result.message || 'CoinEx API Error');
-    }
+    if (result.code !== 0) throw new Error(result.message || 'CoinEx API Error');
     return result.data;
   }
 
