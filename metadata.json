@@ -1,0 +1,5 @@
+{
+  "name": "Sentinel Crypto Engine",
+  "description": "A production-ready CoinEx trading bot system featuring real-time market ranking, technical indicators, and secure stateless authentication.",
+  "requestFramePermissions": []
+}
